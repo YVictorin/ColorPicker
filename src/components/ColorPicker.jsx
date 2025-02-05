@@ -1,28 +1,31 @@
 import PropTypes from "prop-types"
-import { useState } from "react"
 
-import ColorDisplay from "./ColorDisplay";
+export default function ColorPicker({ listOfColors, setColor, currentColor }) {
 
-export default function ColorPicker() {
-    const [color, setColor] = useState("#D3D3D3");
+    const handleSelectedColor = (selectedColor) => {
+        setColor(selectedColor);
+    };
 
-    function handleColorChange(e) {
-        setColor(e.target.value);
+    const handleReset = () => {
+        setColor('#E5E4E2');
     }
-
+    
     return (
-            <div className="container">
-                <p className="title">Pick Your Color</p>
-                <ColorDisplay color={color}/>
-                    <input 
-                        className="color-inputs" 
-                        type="color" 
-                        onChange={handleColorChange}
-                    />
+        <>        
+            <div className="clr-elem-container">
+         
+                {listOfColors.map((eachColor, idx) => (
+                    <div key={idx} className="clr-elem" style={{ backgroundColor: eachColor }} onClick={() => handleSelectedColor(eachColor)}></div>
+                ))}
+                <button className="reset-btn" onClick={handleReset}>Reset</button>
             </div>
-    )
+            {/* this changes the color on the entire app */}
+            <div className="color-display" style={{backgroundColor: currentColor}}></div>
+        </>
+    );
 }
 
+
 ColorPicker.propTypes = {
-    amount: PropTypes.number
+    listOfColors: PropTypes.array.isRequired
 }
